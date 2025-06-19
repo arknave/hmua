@@ -5,7 +5,7 @@ import { AgGridReact } from "ag-grid-react";
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const Table = () => {
-  const [tasks, _setTasks] = useState(['Hair', 'Makeup', 'Draping']);
+  const [tasks, _setTasks] = useState(["Hair", "Makeup", "Draping"]);
 
   /*
   const professionals = {
@@ -20,45 +20,79 @@ const Table = () => {
   */
 
   const initialData = [
-    { id: 1, person: 'Bride', 'Hair': 180, 'Makeup': 0, 'Draping': 0, deadline: '14:00' },
-    { id: 2, person: 'MOB', 'Hair': 45, 'Makeup': 45, 'Draping': 30, deadline: '13:30' },
-    { id: 3, person: 'MOG', 'Hair': 45, 'Makeup': 45, 'Draping': 30, deadline: '13:30' },
-    { id: 4, person: 'MoH', 'Hair': 45, 'Makeup': 45, 'Draping': 15, deadline: '13:45' },
+    {
+      id: 1,
+      person: "Bride",
+      Hair: 180,
+      Makeup: 0,
+      Draping: 0,
+      deadline: "14:00",
+    },
+    {
+      id: 2,
+      person: "MOB",
+      Hair: 45,
+      Makeup: 45,
+      Draping: 30,
+      deadline: "13:30",
+    },
+    {
+      id: 3,
+      person: "MOG",
+      Hair: 45,
+      Makeup: 45,
+      Draping: 30,
+      deadline: "13:30",
+    },
+    {
+      id: 4,
+      person: "MoH",
+      Hair: 45,
+      Makeup: 45,
+      Draping: 15,
+      deadline: "13:45",
+    },
   ];
 
   const colDefs = useMemo(() => {
-      const cols = [
-          {
-              field: 'person',
-              headerName: 'Person',
-              pinned: 'left',
-              suppressMovable: true,
-          },
-          {
-              field: 'deadline',
-              headerName: 'Deadline',
-          },
-      ];
-      tasks.forEach(task => {
-          cols.push({
-              field: task,
-              headerName: task,
-          });
+    const cols = [
+      {
+        field: "person",
+        headerName: "Person",
+        pinned: "left",
+        suppressMovable: true,
+      },
+      {
+        field: "deadline",
+        headerName: "Deadline",
+      },
+    ];
+    tasks.forEach((task) => {
+      cols.push({
+        field: task,
+        headerName: task,
       });
+    });
 
-      return cols;
+    return cols;
   }, [tasks]);
 
-  const defaultColDef = useMemo(() => ({
+  const defaultColDef = useMemo(
+    () => ({
       width: 100,
       filter: false,
       suppressMovable: false,
-  }), []);
+    }),
+    [],
+  );
 
-  const gridOptions = useMemo(() => ({
+  const gridOptions = useMemo(
+    () => ({
       suppressCellFocus: true,
-  }), []);
- 
+    }),
+    [],
+  );
+
   return (
     <div className="mx-auto w-96 h-256 text-center">
       <AgGridReact

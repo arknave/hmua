@@ -1,4 +1,4 @@
-import Table from './Table.tsx';
+import Table from "./Table.tsx";
 
 const App = () => {
   return (
@@ -7,6 +7,6 @@ const App = () => {
       <Table />
     </div>
   );
-}
+};
 
 export default App;
