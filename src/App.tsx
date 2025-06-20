@@ -62,6 +62,7 @@ const App = ({
       <h1 className="text-center">HMUA Scheduler</h1>
       <TimeSettings timeSettings={timeSettings} updateTime={updateTime} />
       <Table data={initialData} tasks={tasks} />
+      <button className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white " type="button">Optimize</button>
     </div>
   );
 };

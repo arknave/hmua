@@ -45,7 +45,7 @@ const Table = ({ data, tasks }) => {
   );
 
   return (
-    <div className="mx-auto w-96 h-96 text-center md:w-128">
+    <div className="mx-auto w-96 h-64 text-center md:w-128">
       <AgGridReact
         rowData={data}
         columnDefs={colDefs}
