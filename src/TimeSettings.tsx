@@ -1,34 +1,32 @@
 import { Clock } from "lucide-react";
 const TimeSettings = ({ timeSettings, updateTime }) => {
   return (
-    <div className="mb-2 p-2 bg-white rounded-lg">
+    <div className="mb-2 p-2 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-3 gap-4">
       <h3 className="mb-3 text-lg font-semibold flex items-center gap-2">
         Time Settings
         <Clock size={20} />
       </h3>
-      <div className="flex grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="flex items-center gap-2 text-center">
-          <label>
-            Start Time:
-            <input
-              type="time"
-              step="900"
-              value={timeSettings.startTime}
-              onChange={(e) => updateTime("startTime", e.target.value)}
-            />
-          </label>
-        </div>
-        <div className="flex items-center gap-2 text-center">
-          <label>
-            End Time:
-            <input
-              type="time"
-              step="900"
-              value={timeSettings.endTime}
-              onChange={(e) => updateTime("endTime", e.target.value)}
-            />
-          </label>
-        </div>
+      <div className="flex items-center gap-2 text-center">
+        <label>
+          Start Time:
+          <input
+            type="time"
+            step="900"
+            value={timeSettings.startTime}
+            onChange={(e) => updateTime("startTime", e.target.value)}
+          />
+        </label>
+      </div>
+      <div className="flex items-center gap-2 text-center">
+        <label>
+          End Time:
+          <input
+            type="time"
+            step="900"
+            value={timeSettings.endTime}
+            onChange={(e) => updateTime("endTime", e.target.value)}
+          />
+        </label>
       </div>
     </div>
   );

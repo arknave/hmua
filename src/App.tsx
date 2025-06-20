@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // components
 import Table from "./Table.tsx";
@@ -9,7 +9,6 @@ const App = ({
     startTime: "05:15",
     endTime: "09:00",
   },
-  persistKey = "hmua-app",
 }) => {
   const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
 
@@ -33,7 +32,7 @@ const App = ({
     },
     {
       id: 2,
-      person: "MOB",
+      person: "MoB",
       Hair: 45,
       Makeup: 45,
       Draping: 30,
@@ -41,7 +40,7 @@ const App = ({
     },
     {
       id: 3,
-      person: "MOG",
+      person: "MoG",
       Hair: 45,
       Makeup: 45,
       Draping: 30,
@@ -49,7 +48,7 @@ const App = ({
     },
     {
       id: 4,
-      person: "MoH",
+      person: "Bridesmaid",
       Hair: 45,
       Makeup: 45,
       Draping: 15,
@@ -58,11 +57,16 @@ const App = ({
   ];
 
   return (
-    <div>
-      <h1 className="text-center">HMUA Scheduler</h1>
+    <div className="w-96 md:w-256 text-center">
+      <h1 className="text-xl font-bold">HMUA Scheduler</h1>
       <TimeSettings timeSettings={timeSettings} updateTime={updateTime} />
       <Table data={initialData} tasks={tasks} />
-      <button className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white " type="button">Optimize</button>
+      <button
+        className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white "
+        type="button"
+      >
+        Optimize
+      </button>
     </div>
   );
 };

@@ -30,7 +30,8 @@ const Table = ({ data, tasks }) => {
 
   const defaultColDef = useMemo(
     () => ({
-      width: 100,
+      flex: 1,
+      minWidth: 100,
       filter: false,
       suppressMovable: false,
     }),
@@ -45,7 +46,7 @@ const Table = ({ data, tasks }) => {
   );
 
   return (
-    <div className="mx-auto w-96 h-64 text-center md:w-128">
+    <div className="mx-auto h-64 text-center">
       <AgGridReact
         rowData={data}
         columnDefs={colDefs}
