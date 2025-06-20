@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const Table = ({ data, tasks }) => {
+const Table = ({ data, tasks, updateData }) => {
   const colDefs = useMemo(() => {
     const cols = [
       {
@@ -22,6 +22,13 @@ const Table = ({ data, tasks }) => {
       cols.push({
         field: task,
         headerName: task,
+        editable: true,
+        cellEditor: "agNumberCellEditor",
+        cellEditorParams: {
+          min: 0,
+          max: 60 * 24,
+          step: 15,
+        },
       });
     });
 
@@ -52,6 +59,9 @@ const Table = ({ data, tasks }) => {
         columnDefs={colDefs}
         defaultColDef={defaultColDef}
         gridOptions={gridOptions}
+        readOnlyEdit={true}
+        onCellEditRequest={updateData}
+        stopEditingWhenCellsLoseFocus={true}
       />
     </div>
   );

@@ -1,8 +1,8 @@
 import { Clock } from "lucide-react";
 const TimeSettings = ({ timeSettings, updateTime }) => {
   return (
-    <div className="mb-2 p-2 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-3 gap-4">
-      <h3 className="mb-3 text-lg font-semibold flex items-center gap-2">
+    <div className="mb-2 p-4 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-3 gap-4">
+      <h3 className="text-lg font-semibold flex items-center gap-2">
         Time Settings
         <Clock size={20} />
       </h3>
