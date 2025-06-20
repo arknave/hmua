@@ -14,21 +14,22 @@ const Table = ({ data, tasks, updateData }) => {
         suppressMovable: true,
       },
       {
+        editable: true,
         field: "deadline",
         headerName: "Deadline",
       },
     ];
     tasks.forEach((task) => {
       cols.push({
-        field: task,
-        headerName: task,
-        editable: true,
         cellEditor: "agNumberCellEditor",
         cellEditorParams: {
           min: 0,
           max: 60 * 24,
           step: 15,
         },
+        editable: true,
+        field: task,
+        headerName: task,
       });
     });
 

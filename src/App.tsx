@@ -12,13 +12,6 @@ const App = ({
 }) => {
   const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
 
-  const updateTime = (field, value) => {
-    setTimeSettings((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  };
-
   const people = ["Bride", "MoB", "MoG", "Bridesmaid"];
   const tasks = ["Hair", "Makeup", "Draping"];
   const [data, setData] = useState([
@@ -28,7 +21,7 @@ const App = ({
       Hair: 180,
       Makeup: 0,
       Draping: 0,
-      deadline: "14:00",
+      deadline: "07:30",
     },
     {
       id: 2,
@@ -36,7 +29,7 @@ const App = ({
       Hair: 45,
       Makeup: 45,
       Draping: 30,
-      deadline: "13:30",
+      deadline: "07:30",
     },
     {
       id: 3,
@@ -44,7 +37,7 @@ const App = ({
       Hair: 45,
       Makeup: 45,
       Draping: 30,
-      deadline: "13:30",
+      deadline: "07:30",
     },
     {
       id: 4,
@@ -52,7 +45,7 @@ const App = ({
       Hair: 45,
       Makeup: 45,
       Draping: 15,
-      deadline: "13:45",
+      deadline: "09:00",
     },
   ]);
 
@@ -68,6 +61,13 @@ const App = ({
       return row.id == changedId ? { ...row, [field]: newValue } : row;
     });
     setData(newData);
+  };
+
+  const updateTime = (field, value) => {
+    setTimeSettings((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
   };
 
   return (
