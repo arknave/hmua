@@ -1,8 +1,14 @@
 import { useState } from "react";
 
+import createSchedule from "./optim.ts";
+import { fromHHMM, toHHMM } from "./time_utils.ts";
+
 // components
+import Schedule from "./Schedule.tsx";
 import Table from "./Table.tsx";
 import TimeSettings from "./TimeSettings.tsx";
+
+const SCALE = 15;
 
 const App = ({
   initialTimeSettings = {
@@ -12,13 +18,12 @@ const App = ({
 }) => {
   const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
 
-  const people = ["Bride", "MoB", "MoG", "Bridesmaid"];
   const tasks = ["Hair", "Makeup", "Draping"];
   const [data, setData] = useState([
     {
       id: 1,
       person: "Bride",
-      Hair: 180,
+      Hair: 120,
       Makeup: 0,
       Draping: 0,
       deadline: "07:30",
@@ -49,6 +54,8 @@ const App = ({
     },
   ]);
 
+  const people: string[] = data.map((row) => row.person);
+
   const updateData = (event: CellEditRequestEvent) => {
     const newValue = event.newValue;
     if (newValue == null) {
@@ -70,6 +77,37 @@ const App = ({
     }));
   };
 
+  const [schedule, setSchedule] = useState(null);
+
+  const start = fromHHMM(timeSettings.startTime);
+  // const end = fromHHMM(timeSettings.endTime);
+
+  const optimize = () => {
+    const numPeople = data.length;
+    const numTasks = tasks.length;
+
+    const matrix: number[][] = Array.from({ length: numPeople }, () =>
+      Array(numTasks),
+    );
+    const stations: number[] = Array.from({ length: numTasks }, () => 2);
+    const deadlines: number[] = new Array(numPeople);
+
+    data.forEach((row, personIndex) => {
+      tasks.forEach((task, taskIndex) => {
+        matrix[personIndex][taskIndex] = row[task] / SCALE;
+      });
+
+      deadlines[personIndex] = (fromHHMM(row.deadline) - start) / SCALE;
+    });
+
+    setSchedule(createSchedule(matrix, stations, deadlines));
+  };
+
+  const toTime = (time) => {
+    console.log(time, toHHMM(start + time * SCALE));
+    return toHHMM(time * SCALE + start);
+  };
+
   return (
     <div className="w-96 md:w-256 text-center">
       <h1 className="p-4 mx-auto text-xl font-bold">HMUA Scheduler</h1>
@@ -78,9 +116,16 @@ const App = ({
       <button
         className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white"
         type="button"
+        onClick={optimize}
       >
         Optimize
       </button>
+      <Schedule
+        people={people}
+        schedule={schedule}
+        tasks={tasks}
+        toTime={toTime}
+      />
     </div>
   );
 };
