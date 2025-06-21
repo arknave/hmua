@@ -5,6 +5,7 @@ import { fromHHMM, toHHMM } from "./time_utils.ts";
 
 // components
 import Schedule from "./Schedule.tsx";
+import StationCount from "./StationCount.tsx";
 import Table from "./Table.tsx";
 import TimeSettings from "./TimeSettings.tsx";
 
@@ -16,9 +17,13 @@ const App = ({
     endTime: "09:00",
   },
 }) => {
-  const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
-
   const tasks = ["Hair", "Makeup", "Draping"];
+  const [stations, setStations] = useState(
+    tasks.reduce((acc, task) => {
+      return { ...acc, [task]: 1 };
+    }, {}),
+  );
+  const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
   const [data, setData] = useState([
     {
       id: 1,
@@ -53,6 +58,7 @@ const App = ({
       deadline: "09:00",
     },
   ]);
+  const [schedule, setSchedule] = useState(null);
 
   const people: string[] = data.map((row) => row.person);
 
@@ -77,9 +83,7 @@ const App = ({
     }));
   };
 
-  const [schedule, setSchedule] = useState(null);
-
-  const start = fromHHMM(timeSettings.startTime);
+  const start: number = fromHHMM(timeSettings.startTime);
   // const end = fromHHMM(timeSettings.endTime);
 
   const optimize = () => {
@@ -89,7 +93,7 @@ const App = ({
     const matrix: number[][] = Array.from({ length: numPeople }, () =>
       Array(numTasks),
     );
-    const stations: number[] = Array.from({ length: numTasks }, () => 2);
+    const numStations: number[] = tasks.map((task) => stations[task]);
     const deadlines: number[] = new Array(numPeople);
 
     data.forEach((row, personIndex) => {
@@ -100,11 +104,18 @@ const App = ({
       deadlines[personIndex] = (fromHHMM(row.deadline) - start) / SCALE;
     });
 
-    setSchedule(createSchedule(matrix, stations, deadlines));
+    setSchedule(createSchedule(matrix, numStations, deadlines));
   };
 
-  const toTime = (time) => {
-    console.log(time, toHHMM(start + time * SCALE));
+  const changeStationCount = (task: string, count: number | null) => {
+    if (count == null || count <= 0) {
+      return;
+    }
+
+    setStations({ ...stations, [task]: count });
+  };
+
+  const toTime = (time: number): string => {
     return toHHMM(time * SCALE + start);
   };
 
@@ -112,6 +123,10 @@ const App = ({
     <div className="w-96 md:w-256 text-center">
       <h1 className="p-4 mx-auto text-xl font-bold">HMUA Scheduler</h1>
       <TimeSettings timeSettings={timeSettings} updateTime={updateTime} />
+      <StationCount
+        changeStationCount={changeStationCount}
+        stations={stations}
+      />
       <Table data={data} tasks={tasks} updateData={updateData} />
       <button
         className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white"
