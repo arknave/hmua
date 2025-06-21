@@ -1,11 +1,18 @@
 type Task = { person: number; task: number; duration: number };
 type Schedule = { person: number; task: number; startTime: number }[];
 
-function createSchedule(
+export type Uninitialized = "Uninitialized";
+export type NotFound = "NotFound";
+export type ScheduleResult = Schedule | Uninitialized | NotFound;
+
+export const Uninitialized: Uninitialized = "Uninitialized";
+export const NotFound: NotFound = "NotFound";
+
+export function createSchedule(
   M: number[][], // M[i][j] = time for person i to do task j (0 if not needed)
   S: number[], // S[j] = number of stations for task j
   D: number[], // D[i] = deadline for person i
-): Schedule | null {
+): ScheduleResult {
   const numPeople = M.length;
   const numTasks = M[0].length;
 
@@ -64,7 +71,5 @@ function createSchedule(
     return false;
   }
 
-  return backtrack(0) ? schedule : null;
+  return backtrack(0) ? schedule : "NotFound";
 }
-
-export default createSchedule;

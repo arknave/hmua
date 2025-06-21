@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-import createSchedule from "./optim.ts";
+import type { ScheduleResult } from "./optim.ts";
+import { Uninitialized } from "./optim.ts";
+import { createSchedule } from "./optim.ts";
 import { fromHHMM, toHHMM } from "./time_utils.ts";
 
 // components
@@ -58,9 +60,9 @@ const App = ({
       deadline: "09:00",
     },
   ]);
-  const [schedule, setSchedule] = useState(null);
+  const [schedule, setSchedule] = useState<ScheduleResult>(Uninitialized);
 
-  const people: string[] = data.map((row) => row.person);
+  const people: string[] = useMemo(() => data.map((row) => row.person), [data]);
 
   const updateData = (event: CellEditRequestEvent) => {
     const newValue = event.newValue;
@@ -83,7 +85,10 @@ const App = ({
     }));
   };
 
-  const start: number = fromHHMM(timeSettings.startTime);
+  const start: number = useMemo(
+    () => fromHHMM(timeSettings.startTime),
+    [timeSettings],
+  );
   // const end = fromHHMM(timeSettings.endTime);
 
   const optimize = () => {
@@ -141,6 +146,9 @@ const App = ({
         tasks={tasks}
         toTime={toTime}
       />
+      <p className="text-xs">
+        Please enter all times in muliples of 15 minutes.
+      </p>
     </div>
   );
 };

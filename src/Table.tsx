@@ -59,6 +59,7 @@ const Table = ({ data, tasks, updateData }) => {
         rowData={data}
         columnDefs={colDefs}
         defaultColDef={defaultColDef}
+        domLayout={"autoHeight"}
         gridOptions={gridOptions}
         readOnlyEdit={true}
         onCellEditRequest={updateData}

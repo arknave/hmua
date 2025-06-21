@@ -4,9 +4,10 @@ const StationCount = ({ changeStationCount, stations }) => {
       {task}
       <input
         type="number"
-        value={count}
-        onChange={(e) => changeStationCount(task, e.target.value)}
+        min={1}
         className="mx-2 pl-1 w-12 text-center border rounded-sm"
+        onChange={(e) => changeStationCount(task, e.target.value)}
+        value={count}
       />
     </label>
   ));

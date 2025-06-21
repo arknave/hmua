@@ -1,6 +1,20 @@
-const Schedule = ({ people, schedule, tasks, toTime }) => {
-  if (schedule == null) {
+import type { NotFound, Uninitialized, ScheduleResult } from "./optim.ts";
+import { NotFound, Uninitialized } from "./optim.ts";
+
+type ScheduleProps = {
+  people: string[];
+  schedule: ScheduleResult;
+  tasks: string[];
+  toTime: (time: number) => string;
+};
+
+const Schedule = ({ people, schedule, tasks, toTime }: ScheduleProps) => {
+  if (schedule == Uninitialized) {
     return <div></div>;
+  }
+
+  if (schedule == NotFound) {
+    return <p>Unable to find a valid schedule.</p>;
   }
 
   const output: string[] = people.map(() => "");
