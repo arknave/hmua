@@ -1,10 +1,10 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const Table = ({ data, tasks, updateData }) => {
+const Table = ({ data, deleteRows, tasks, updateData }) => {
   const colDefs = useMemo(() => {
     const cols = [
       {
@@ -53,8 +53,18 @@ const Table = ({ data, tasks, updateData }) => {
     [],
   );
 
+  const gridRef = useRef();
+
+  const onDeleteRows = () => {
+    const api = gridRef.current.api;
+    const selected = api.getSelectedRows();
+    const ids = selected.map((row) => row.id);
+
+    deleteRows(ids);
+  };
+
   return (
-    <div className="mx-auto h-64 text-center">
+    <div className="mx-auto text-center">
       <AgGridReact
         rowData={data}
         columnDefs={colDefs}
@@ -62,9 +72,12 @@ const Table = ({ data, tasks, updateData }) => {
         domLayout={"autoHeight"}
         gridOptions={gridOptions}
         readOnlyEdit={true}
+        ref={gridRef}
+        rowSelection={{ mode: "multiRow" }}
         onCellEditRequest={updateData}
         stopEditingWhenCellsLoseFocus={true}
       />
+      <button onClick={onDeleteRows}>Delete Rows</button>
     </div>
   );
 };

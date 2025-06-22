@@ -1,8 +1,7 @@
-import { useMemo, useState } from "react";
-
 import type { ScheduleResult } from "./optim.ts";
-import { Uninitialized } from "./optim.ts";
-import { createSchedule } from "./optim.ts";
+
+import { useMemo, useState } from "react";
+import { createSchedule, Uninitialized } from "./optim.ts";
 import { fromHHMM, toHHMM } from "./time_utils.ts";
 
 // components
@@ -63,6 +62,10 @@ const App = ({
   const [schedule, setSchedule] = useState<ScheduleResult>(Uninitialized);
 
   const people: string[] = useMemo(() => data.map((row) => row.person), [data]);
+
+  const deleteRows = (ids: number[]) => {
+    setData((data) => data.filter((row) => !ids.includes(row.id)));
+  };
 
   const updateData = (event: CellEditRequestEvent) => {
     const newValue = event.newValue;
@@ -132,7 +135,12 @@ const App = ({
         changeStationCount={changeStationCount}
         stations={stations}
       />
-      <Table data={data} tasks={tasks} updateData={updateData} />
+      <Table
+        data={data}
+        deleteRows={deleteRows}
+        tasks={tasks}
+        updateData={updateData}
+      />
       <button
         className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white"
         type="button"

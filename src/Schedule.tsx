@@ -1,4 +1,5 @@
 import type { NotFound, Uninitialized, ScheduleResult } from "./optim.ts";
+
 import { NotFound, Uninitialized } from "./optim.ts";
 
 type ScheduleProps = {
@@ -17,23 +18,27 @@ const Schedule = ({ people, schedule, tasks, toTime }: ScheduleProps) => {
     return <p>Unable to find a valid schedule.</p>;
   }
 
-  const output: string[] = people.map(() => "");
-  schedule.forEach((row) => {
-    const task: string = tasks[row.task];
-    const start = toTime(row.startTime);
+  const output: string[] = (() => {
+    const output = people.map(() => "");
+    schedule.forEach((row) => {
+      const task: string = tasks[row.task];
+      const start: string = toTime(row.startTime);
 
-    output[row.person] += ` ${task}: ${start}`;
-  });
+      output[row.person] += ` ${task}: ${start}`;
+    });
+
+    return output;
+  })();
 
   const rendered = output.map((row, idx) => (
-    <p key={people[idx]}>
+    <p key={row}>
       {people[idx]}: {row}
     </p>
   ));
 
   return (
     <div>
-      <h1>I have a schedule!</h1>
+      <h1 className="text-lg text-semibold">I have a schedule!</h1>
       {rendered}
     </div>
   );
