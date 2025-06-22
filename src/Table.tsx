@@ -12,8 +12,8 @@ const Table = ({
   updateDeadline,
   updateDuration,
 }) => {
-  const colDefs = useMemo(() => {
-    const cols = [
+  const colDefs: any = useMemo(() => {
+    const cols: any[] = [
       {
         field: "person",
         headerName: "Person",
@@ -61,7 +61,7 @@ const Table = ({
     [],
   );
 
-  const gridRef = useRef(null);
+  const gridRef = useRef<any>(null);
 
   const updateDataEvent = (event) => {
     const newValue = event.newValue;
