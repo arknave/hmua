@@ -85,20 +85,20 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
         stopEditingWhenCellsLoseFocus={true}
       />
       {/*TODO: Disable if there are no selected rows*/}
-      <div className="toolbar flex grid grid-columns-6">
+      <div className="mx-auto my-2 flex items-center text-center gap-4">
         <button
-          className="flex bg-sky-500 mx-auto my-1 px-2 py-2 rounded-lg text-white"
+          className="flex px-1 bg-sky-500 rounded-lg text-white"
           onClick={onDeleteRows}
         >
           Delete Selected Rows
         </button>
-        <form action={addPersonForm}>
-          <label>
+        <form action={addPersonForm} className="flex">
+          <label className="flex mx-2">
             Name:
-            <input name="personName" className="bg-white" />
+            <input name="personName" className="flex bg-white" />
           </label>
           <button
-            className="flex bg-sky-500 mx-auto my-1 px-2 py-2 rounded-lg text-white"
+            className="flex px-1 bg-sky-500 rounded-lg text-white"
             type="submit"
           >
             Add Person
