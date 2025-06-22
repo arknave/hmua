@@ -4,7 +4,7 @@ import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const Table = ({ data, deleteRows, tasks, updateData }) => {
+const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
   const colDefs = useMemo(() => {
     const cols = [
       {
@@ -63,6 +63,13 @@ const Table = ({ data, deleteRows, tasks, updateData }) => {
     deleteRows(ids);
   };
 
+  const addPersonForm = (formData) => {
+    const name: string = formData.get("personName");
+    if (name) {
+      addPerson(name);
+    }
+  };
+
   return (
     <div className="mx-auto text-center">
       <AgGridReact
@@ -77,7 +84,27 @@ const Table = ({ data, deleteRows, tasks, updateData }) => {
         onCellEditRequest={updateData}
         stopEditingWhenCellsLoseFocus={true}
       />
-      <button onClick={onDeleteRows}>Delete Rows</button>
+      {/*TODO: Disable if there are no selected rows*/}
+      <div className="toolbar flex grid grid-columns-6">
+        <button
+          className="flex bg-sky-500 mx-auto my-1 px-2 py-2 rounded-lg text-white"
+          onClick={onDeleteRows}
+        >
+          Delete Selected Rows
+        </button>
+        <form action={addPersonForm}>
+          <label>
+            Name:
+            <input name="personName" className="bg-white" />
+          </label>
+          <button
+            className="flex bg-sky-500 mx-auto my-1 px-2 py-2 rounded-lg text-white"
+            type="submit"
+          >
+            Add Person
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

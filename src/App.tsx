@@ -63,6 +63,26 @@ const App = ({
 
   const people: string[] = useMemo(() => data.map((row) => row.person), [data]);
 
+  const addPerson = (name: string) => {
+    if (people.includes(name)) {
+      return;
+    }
+
+    const nextId = Math.max(...data.map((row) => row.id)) + 1;
+
+    setData((data) => [
+      ...data,
+      {
+        id: nextId,
+        person: name,
+        Hair: 0,
+        Makeup: 0,
+        Draping: 0,
+        deadline: timeSettings.endTime,
+      },
+    ]);
+  };
+
   const deleteRows = (ids: number[]) => {
     setData((data) => data.filter((row) => !ids.includes(row.id)));
   };
@@ -136,6 +156,7 @@ const App = ({
         stations={stations}
       />
       <Table
+        addPerson={addPerson}
         data={data}
         deleteRows={deleteRows}
         tasks={tasks}
