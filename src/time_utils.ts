@@ -1,6 +1,6 @@
 export function fromHHMM(hhmm: string): number {
-  const h = parseInt(hhmm.substr(0, 2));
-  const m = parseInt(hhmm.substr(3, 5));
+  const h = parseInt(hhmm.slice(0, 2));
+  const m = parseInt(hhmm.slice(3, 5));
 
   return 60 * h + m;
 }

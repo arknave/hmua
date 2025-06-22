@@ -24,7 +24,9 @@ const TimePanel = ({ timeSettings, updateTime }: TimePanelProps) => {
             type="time"
             step="900"
             value={timeSettings.startTime}
-            onChange={(e) => updateTime("startTime", e.target.value)}
+            onChange={(e) => {
+              updateTime("startTime", e.target.value);
+            }}
           />
         </label>
       </div>
@@ -35,7 +37,9 @@ const TimePanel = ({ timeSettings, updateTime }: TimePanelProps) => {
             type="time"
             step="900"
             value={timeSettings.endTime}
-            onChange={(e) => updateTime("endTime", e.target.value)}
+            onChange={(e) => {
+              updateTime("endTime", e.target.value);
+            }}
           />
         </label>
       </div>
