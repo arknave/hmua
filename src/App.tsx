@@ -1,5 +1,6 @@
 import type { ScheduleResult } from "./optim.ts";
 import type { Stations } from "./StationPanel.tsx";
+import type { TableData } from "./Table.tsx";
 import type { TimeSettings } from "./TimePanel.tsx";
 
 import { useMemo, useState } from "react";
@@ -30,7 +31,7 @@ const App = ({
   );
   const [timeSettings, setTimeSettings] =
     useState<TimeSettings>(initialTimeSettings);
-  const [data, setData] = useState([
+  const [data, setData] = useState<TableData>([
     {
       id: 1,
       person: "Bride",
@@ -102,7 +103,11 @@ const App = ({
     );
   };
 
-  const updateDuration = (changedId, field, newValue) => {
+  const updateDuration = (
+    changedId: number,
+    field: string,
+    newValue: number,
+  ) => {
     const fieldIndex: number = tasks.indexOf(field);
 
     setData((data) =>

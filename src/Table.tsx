@@ -1,8 +1,28 @@
+import type { CellEditRequestEvent, ColDef } from "ag-grid-community";
+
 import { useMemo, useRef } from "react";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
+
+export interface TableRow {
+  id: number;
+  person: string;
+  durations: number[];
+  deadline: string;
+}
+
+export type TableData = TableRow[];
+
+interface TableProps {
+  addPerson: (name: string) => void;
+  data: TableRow[];
+  deleteRows: (ids: number[]) => void;
+  tasks: string[];
+  updateDeadline: (changedId: number, deadline: string) => void;
+  updateDuration: (changedId: number, field: string, newValue: number) => void;
+}
 
 const Table = ({
   addPerson,
@@ -11,9 +31,9 @@ const Table = ({
   tasks,
   updateDeadline,
   updateDuration,
-}) => {
-  const colDefs: any = useMemo(() => {
-    const cols: any[] = [
+}: TableProps) => {
+  const colDefs = useMemo(() => {
+    const cols: ColDef<TableRow>[] = [
       {
         field: "person",
         headerName: "Person",
@@ -35,9 +55,8 @@ const Table = ({
           step: 15,
         },
         editable: true,
-        field: task,
         headerName: task,
-        valueGetter: (p) => p.data.durations[index],
+        valueGetter: (p) => p.data?.durations[index],
       });
     });
 
@@ -61,42 +80,46 @@ const Table = ({
     [],
   );
 
-  const gridRef = useRef<any>(null);
+  const gridRef = useRef<AgGridReact<TableRow>>(null);
 
-  const updateDataEvent = (event) => {
+  const updateDataEvent = (event: CellEditRequestEvent<TableRow>) => {
     const newValue = event.newValue;
     if (newValue == null) {
       return;
     }
 
-    const changedId: number = event.data.id;
-    const field: string = event.colDef.field;
+    const changedId = event.data.id;
+    const field = event.colDef.headerName;
 
     if (field == "deadline") {
       updateDeadline(changedId, newValue);
-    } else {
+    } else if (field) {
       updateDuration(changedId, field, newValue);
     }
   };
 
   const onDeleteRows = () => {
-    const api = gridRef.current.api;
-    const selected = api.getSelectedRows();
-    const ids: number[] = selected.map((row) => row.id);
+    const api = gridRef.current?.api;
+    if (api == null) {
+      return;
+    }
+
+    const selected: TableData = api.getSelectedRows();
+    const ids: number[] = selected.map((row: TableRow) => row.id);
 
     deleteRows(ids);
   };
 
-  const addPersonForm = (formData) => {
-    const name: string = formData.get("personName");
+  const addPersonForm = (formData: FormData) => {
+    const name = formData.get("personName");
     if (name) {
-      addPerson(name);
+      addPerson(name as string);
     }
   };
 
   return (
     <div className="mx-auto text-center">
-      <AgGridReact
+      <AgGridReact<TableRow>
         rowData={data}
         columnDefs={colDefs}
         defaultColDef={defaultColDef}
