@@ -1,14 +1,16 @@
 import type { ScheduleResult } from "./optim.ts";
+import type { Stations } from "./StationPanel.tsx";
+import type { TimeSettings } from "./TimePanel.tsx";
 
 import { useMemo, useState } from "react";
 import { createSchedule, Uninitialized } from "./optim.ts";
 import { fromHHMM, toHHMM } from "./time_utils.ts";
 
 // components
-import Schedule from "./Schedule.tsx";
-import StationCount from "./StationCount.tsx";
+import SchedulePanel from "./SchedulePanel.tsx";
+import StationPanel from "./StationPanel.tsx";
 import Table from "./Table.tsx";
-import TimeSettings from "./TimeSettings.tsx";
+import TimePanel from "./TimePanel.tsx";
 
 const SCALE = 15;
 
@@ -17,14 +19,17 @@ const App = ({
     startTime: "05:15",
     endTime: "09:00",
   },
+}: {
+  initialTimeSettings?: TimeSettings;
 }) => {
   const tasks = ["Hair", "Makeup", "Draping"];
-  const [stations, setStations] = useState(
+  const [stations, setStations] = useState<Stations>(
     tasks.reduce((acc, task) => {
       return { ...acc, [task]: 1 };
     }, {}),
   );
-  const [timeSettings, setTimeSettings] = useState(initialTimeSettings);
+  const [timeSettings, setTimeSettings] =
+    useState<TimeSettings>(initialTimeSettings);
   const [data, setData] = useState([
     {
       id: 1,
@@ -77,7 +82,7 @@ const App = ({
     setData((data) => data.filter((row) => !ids.includes(row.id)));
   };
 
-  const updateTime = (field, value) => {
+  const updateTime = (field: string, value: string) => {
     setTimeSettings((prev) => ({
       ...prev,
       [field]: value,
@@ -146,8 +151,8 @@ const App = ({
   return (
     <div className="w-96 md:w-256 text-center">
       <h1 className="p-4 mx-auto text-xl font-bold">HMUA Scheduler</h1>
-      <TimeSettings timeSettings={timeSettings} updateTime={updateTime} />
-      <StationCount
+      <TimePanel timeSettings={timeSettings} updateTime={updateTime} />
+      <StationPanel
         changeStationCount={changeStationCount}
         stations={stations}
       />
@@ -166,7 +171,7 @@ const App = ({
       >
         Optimize
       </button>
-      <Schedule
+      <SchedulePanel
         people={people}
         schedule={schedule}
         tasks={tasks}

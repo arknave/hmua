@@ -2,14 +2,19 @@ import type { ScheduleResult } from "./optim.ts";
 
 import { NotFound, Uninitialized } from "./optim.ts";
 
-type ScheduleProps = {
+type SchedulePanelProps = {
   people: string[];
   schedule: ScheduleResult;
   tasks: string[];
   toTime: (time: number) => string;
 };
 
-const Schedule = ({ people, schedule, tasks, toTime }: ScheduleProps) => {
+const SchedulePanel = ({
+  people,
+  schedule,
+  tasks,
+  toTime,
+}: SchedulePanelProps) => {
   if (schedule == Uninitialized) {
     return <div></div>;
   }
@@ -44,4 +49,4 @@ const Schedule = ({ people, schedule, tasks, toTime }: ScheduleProps) => {
   );
 };
 
-export default Schedule;
+export default SchedulePanel;

@@ -15,7 +15,6 @@
 
     /* Linting */
     "strict": true,
-    "noImplicitAny": false, // temporary stopgap
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,

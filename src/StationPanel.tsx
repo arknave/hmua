@@ -1,4 +1,14 @@
-const StationCount = ({ changeStationCount, stations }) => {
+import React from "react";
+
+// TODO: tighten
+export type Stations = { [key: string]: number };
+
+interface StationPanelProps {
+  changeStationCount: (task: string, count: number | null) => void;
+  stations: Stations;
+}
+
+const StationPanel = ({ changeStationCount, stations }: StationPanelProps) => {
   const counts = Object.entries(stations).map(([task, count]) => (
     <label key={task} className="mx-2 px-2">
       {task}
@@ -6,11 +16,14 @@ const StationCount = ({ changeStationCount, stations }) => {
         type="number"
         min={1}
         className="mx-2 pl-1 w-12 text-center border rounded-sm"
-        onChange={(e) => changeStationCount(task, e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          changeStationCount(task, e.target.valueAsNumber)
+        }
         value={count as number}
       />
     </label>
   ));
+
   return (
     <div className="mb-2 p-4 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-4 gap-4">
       <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -21,4 +34,4 @@ const StationCount = ({ changeStationCount, stations }) => {
   );
 };
 
-export default StationCount;
+export default StationPanel;

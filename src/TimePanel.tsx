@@ -1,5 +1,16 @@
 import { Clock } from "lucide-react";
-const TimeSettings = ({ timeSettings, updateTime }) => {
+
+export interface TimeSettings {
+  startTime: string;
+  endTime: string;
+}
+
+interface TimePanelProps {
+  timeSettings: TimeSettings;
+  updateTime: (field: string, value: string) => void;
+}
+
+const TimePanel = ({ timeSettings, updateTime }: TimePanelProps) => {
   return (
     <div className="mb-2 p-4 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-3 gap-4">
       <h3 className="text-lg font-semibold flex items-center gap-2">
@@ -32,4 +43,4 @@ const TimeSettings = ({ timeSettings, updateTime }) => {
   );
 };
 
-export default TimeSettings;
+export default TimePanel;
