@@ -176,7 +176,7 @@ const App = ({
         toTime={toTime}
       />
       <p className="text-xs">
-        Please enter all times in muliples of 15 minutes.
+        Please enter all times in multiples of 15 minutes.
       </p>
     </div>
   );
