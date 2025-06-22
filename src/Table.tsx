@@ -82,7 +82,9 @@ const Table = ({
 
   const gridRef = useRef<AgGridReact<TableRow>>(null);
 
-  const updateDataEvent = (event: CellEditRequestEvent<TableRow>) => {
+  const updateDataEvent = (
+    event: CellEditRequestEvent<TableRow, string | number>,
+  ) => {
     const newValue = event.newValue;
     if (newValue == null) {
       return;
@@ -92,9 +94,9 @@ const Table = ({
     const field = event.colDef.headerName;
 
     if (field == "deadline") {
-      updateDeadline(changedId, newValue);
+      updateDeadline(changedId, newValue as string);
     } else if (field) {
-      updateDuration(changedId, field, newValue);
+      updateDuration(changedId, field, newValue as number);
     }
   };
 

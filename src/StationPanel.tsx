@@ -19,7 +19,7 @@ const StationPanel = ({ changeStationCount, stations }: StationPanelProps) => {
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           changeStationCount(task, e.target.valueAsNumber)
         }
-        value={count as number}
+        value={count}
       />
     </label>
   ));
