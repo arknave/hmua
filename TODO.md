@@ -18,4 +18,4 @@ Tech-debt
   - panels
   - buttons
 
-- Add ability to collapse panels
+- Add ability to collapse panels (mobile only?)

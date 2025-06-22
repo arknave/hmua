@@ -4,9 +4,16 @@ import { AgGridReact } from "ag-grid-react";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
-const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
+const Table = ({
+  addPerson,
+  data,
+  deleteRows,
+  tasks,
+  updateDeadline,
+  updateDuration,
+}) => {
   const colDefs = useMemo(() => {
-    const cols: any[] = [
+    const cols = [
       {
         field: "person",
         headerName: "Person",
@@ -19,7 +26,7 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
         headerName: "Deadline",
       },
     ];
-    tasks.forEach((task) => {
+    tasks.forEach((task, index) => {
       cols.push({
         cellEditor: "agNumberCellEditor",
         cellEditorParams: {
@@ -30,6 +37,7 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
         editable: true,
         field: task,
         headerName: task,
+        valueGetter: (p) => p.data.durations[index],
       });
     });
 
@@ -53,11 +61,27 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
     [],
   );
 
-  const gridRef = useRef<any>(null);
+  const gridRef = useRef(null);
+
+  const updateDataEvent = (event) => {
+    const newValue = event.newValue;
+    if (newValue == null) {
+      return;
+    }
+
+    const changedId: number = event.data.id;
+    const field: string = event.colDef.field;
+
+    if (field == "deadline") {
+      updateDeadline(changedId, newValue);
+    } else {
+      updateDuration(changedId, field, newValue);
+    }
+  };
 
   const onDeleteRows = () => {
-    const api: any = gridRef.current.api;
-    const selected: any = api.getSelectedRows();
+    const api = gridRef.current.api;
+    const selected = api.getSelectedRows();
     const ids: number[] = selected.map((row) => row.id);
 
     deleteRows(ids);
@@ -81,7 +105,7 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
         readOnlyEdit={true}
         ref={gridRef}
         rowSelection={{ mode: "multiRow" }}
-        onCellEditRequest={updateData}
+        onCellEditRequest={updateDataEvent}
         stopEditingWhenCellsLoseFocus={true}
       />
       {/*TODO: Disable if there are no selected rows*/}

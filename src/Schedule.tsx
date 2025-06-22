@@ -38,7 +38,7 @@ const Schedule = ({ people, schedule, tasks, toTime }: ScheduleProps) => {
 
   return (
     <div>
-      <h1 className="text-lg text-semibold">I have a schedule!</h1>
+      <h1 className="text-lg text-semibold">Found a schedule</h1>
       {rendered}
     </div>
   );

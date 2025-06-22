@@ -29,33 +29,25 @@ const App = ({
     {
       id: 1,
       person: "Bride",
-      Hair: 120,
-      Makeup: 0,
-      Draping: 0,
+      durations: [120, 0, 0],
       deadline: "07:30",
     },
     {
       id: 2,
       person: "MoB",
-      Hair: 45,
-      Makeup: 45,
-      Draping: 30,
+      durations: [45, 45, 30],
       deadline: "07:30",
     },
     {
       id: 3,
       person: "MoG",
-      Hair: 45,
-      Makeup: 45,
-      Draping: 30,
+      durations: [45, 45, 30],
       deadline: "07:30",
     },
     {
       id: 4,
       person: "Bridesmaid",
-      Hair: 45,
-      Makeup: 45,
-      Draping: 15,
+      durations: [45, 45, 15],
       deadline: "09:00",
     },
   ]);
@@ -75,9 +67,7 @@ const App = ({
       {
         id: nextId,
         person: name,
-        Hair: 0,
-        Makeup: 0,
-        Draping: 0,
+        durations: tasks.map(() => 0),
         deadline: timeSettings.endTime,
       },
     ]);
@@ -87,25 +77,40 @@ const App = ({
     setData((data) => data.filter((row) => !ids.includes(row.id)));
   };
 
-  const updateData = (event) => {
-    const newValue = event.newValue;
-    if (newValue == null) {
-      return;
-    }
-    const changedId = event.data.id;
-    const field = event.colDef.field;
-
-    const newData = data.map((row) => {
-      return row.id == changedId ? { ...row, [field]: newValue } : row;
-    });
-    setData(newData);
-  };
-
   const updateTime = (field, value) => {
     setTimeSettings((prev) => ({
       ...prev,
       [field]: value,
     }));
+  };
+
+  const updateDeadline = (changedId: number, deadline: string) => {
+    setData((data) =>
+      data.map((row) =>
+        row.id == changedId
+          ? {
+              ...row,
+              deadline,
+            }
+          : row,
+      ),
+    );
+  };
+
+  const updateDuration = (changedId, field, newValue) => {
+    const fieldIndex: number = tasks.indexOf(field);
+
+    setData((data) =>
+      data.map((row) => {
+        if (row.id == changedId) {
+          const durations = row.durations.slice();
+          durations[fieldIndex] = newValue;
+          return { ...row, durations };
+        } else {
+          return row;
+        }
+      }),
+    );
   };
 
   const start: number = useMemo(
@@ -115,22 +120,13 @@ const App = ({
   // const end = fromHHMM(timeSettings.endTime);
 
   const optimize = () => {
-    const numPeople = data.length;
-    const numTasks = tasks.length;
-
-    const matrix: number[][] = Array.from({ length: numPeople }, () =>
-      Array(numTasks),
+    const matrix: number[][] = data.map((row) =>
+      row.durations.map((x) => x / SCALE),
     );
     const numStations: number[] = tasks.map((task) => stations[task]);
-    const deadlines: number[] = new Array(numPeople);
-
-    data.forEach((row, personIndex) => {
-      tasks.forEach((task, taskIndex) => {
-        matrix[personIndex][taskIndex] = row[task] / SCALE;
-      });
-
-      deadlines[personIndex] = (fromHHMM(row.deadline) - start) / SCALE;
-    });
+    const deadlines: number[] = data.map(
+      (row) => (fromHHMM(row.deadline) - start) / SCALE,
+    );
 
     setSchedule(createSchedule(matrix, numStations, deadlines));
   };
@@ -160,7 +156,8 @@ const App = ({
         data={data}
         deleteRows={deleteRows}
         tasks={tasks}
-        updateData={updateData}
+        updateDeadline={updateDeadline}
+        updateDuration={updateDuration}
       />
       <button
         className="bg-sky-500 hover:bg-fuchsia-500 mx-auto my-3 px-5 py-3 flex max-w-sm items-center rounded-md text-white"
@@ -176,7 +173,7 @@ const App = ({
         toTime={toTime}
       />
       <p className="text-xs">
-        Please enter all times in multiples of 15 minutes.
+        Please enter all times in multiples of {SCALE} minutes.
       </p>
     </div>
   );
