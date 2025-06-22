@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import { useMemo, useRef } from "react";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import { AgGridReact } from "ag-grid-react";
 
@@ -6,7 +6,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 
 const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
   const colDefs = useMemo(() => {
-    const cols = [
+    const cols: any[] = [
       {
         field: "person",
         headerName: "Person",
@@ -53,12 +53,12 @@ const Table = ({ addPerson, data, deleteRows, tasks, updateData }) => {
     [],
   );
 
-  const gridRef = useRef();
+  const gridRef = useRef<any>(null);
 
   const onDeleteRows = () => {
-    const api = gridRef.current.api;
-    const selected = api.getSelectedRows();
-    const ids = selected.map((row) => row.id);
+    const api: any = gridRef.current.api;
+    const selected: any = api.getSelectedRows();
+    const ids: number[] = selected.map((row) => row.id);
 
     deleteRows(ids);
   };

@@ -1,4 +1,4 @@
-import type { NotFound, Uninitialized, ScheduleResult } from "./optim.ts";
+import type { ScheduleResult } from "./optim.ts";
 
 import { NotFound, Uninitialized } from "./optim.ts";
 

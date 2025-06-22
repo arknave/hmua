@@ -87,7 +87,7 @@ const App = ({
     setData((data) => data.filter((row) => !ids.includes(row.id)));
   };
 
-  const updateData = (event: CellEditRequestEvent) => {
+  const updateData = (event) => {
     const newValue = event.newValue;
     if (newValue == null) {
       return;

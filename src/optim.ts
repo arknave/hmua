@@ -1,12 +1,9 @@
 type Task = { person: number; task: number; duration: number };
 type Schedule = { person: number; task: number; startTime: number }[];
 
-export type Uninitialized = "Uninitialized";
-export type NotFound = "NotFound";
-export type ScheduleResult = Schedule | Uninitialized | NotFound;
-
-export const Uninitialized: Uninitialized = "Uninitialized";
-export const NotFound: NotFound = "NotFound";
+export const Uninitialized = "Uninitialized";
+export const NotFound = "NotFound";
+export type ScheduleResult = Schedule | "Uninitialized" | "NotFound";
 
 export function createSchedule(
   M: number[][], // M[i][j] = time for person i to do task j (0 if not needed)
