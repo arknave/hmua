@@ -1,3 +1,5 @@
+import Card from "./Card.tsx";
+
 import React from "react";
 
 // TODO: tighten
@@ -25,12 +27,14 @@ const StationPanel = ({ changeStationCount, stations }: StationPanelProps) => {
   ));
 
   return (
-    <div className="mb-2 p-4 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-4 gap-4">
-      <h3 className="text-lg font-semibold flex items-center gap-2">
-        Task Counts
-      </h3>
-      {counts}
-    </div>
+    <Card>
+      <div className="flex">
+        <h3 className="text-lg font-semibold flex items-center gap-2">
+          Task Counts
+        </h3>
+        {counts}
+      </div>
+    </Card>
   );
 };
 

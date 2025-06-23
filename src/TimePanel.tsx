@@ -1,3 +1,5 @@
+import Card from "./Card.tsx";
+
 import { Clock } from "lucide-react";
 
 export interface TimeSettings {
@@ -12,38 +14,40 @@ interface TimePanelProps {
 
 const TimePanel = ({ timeSettings, updateTime }: TimePanelProps) => {
   return (
-    <div className="mb-2 p-4 bg-white rounded-lg flex grid grid-cols-1 md:grid-cols-3 gap-4">
-      <h3 className="text-lg font-semibold flex items-center gap-2">
-        Time Settings
-        <Clock size={20} />
-      </h3>
-      <div className="flex items-center gap-2 text-center">
-        <label>
-          Start Time:
-          <input
-            type="time"
-            step="900"
-            value={timeSettings.startTime}
-            onChange={(e) => {
-              updateTime("startTime", e.target.value);
-            }}
-          />
-        </label>
+    <Card>
+      <div className="flex gap-8 items-center">
+        <h3 className="flex text-lg font-semibold gap-2 items-center">
+          Time Settings
+          <Clock size={20} />
+        </h3>
+        <div className="gap-2 text-center items-center">
+          <label>
+            Start Time:
+            <input
+              type="time"
+              step="900"
+              value={timeSettings.startTime}
+              onChange={(e) => {
+                updateTime("startTime", e.target.value);
+              }}
+            />
+          </label>
+        </div>
+        <div className="gap-2 text-center items-center">
+          <label>
+            End Time:
+            <input
+              type="time"
+              step="900"
+              value={timeSettings.endTime}
+              onChange={(e) => {
+                updateTime("endTime", e.target.value);
+              }}
+            />
+          </label>
+        </div>
       </div>
-      <div className="flex items-center gap-2 text-center">
-        <label>
-          End Time:
-          <input
-            type="time"
-            step="900"
-            value={timeSettings.endTime}
-            onChange={(e) => {
-              updateTime("endTime", e.target.value);
-            }}
-          />
-        </label>
-      </div>
-    </div>
+    </Card>
   );
 };
 

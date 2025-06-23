@@ -2,6 +2,8 @@ import type { ScheduleResult } from "./optim.ts";
 
 import { NotFound, Uninitialized } from "./optim.ts";
 
+import Card from "./Card.tsx";
+
 type SchedulePanelProps = {
   people: string[];
   schedule: ScheduleResult;
@@ -20,7 +22,11 @@ const SchedulePanel = ({
   }
 
   if (schedule == NotFound) {
-    return <p>Unable to find a valid schedule.</p>;
+    return (
+      <Card>
+        <p>Unable to find a valid schedule.</p>
+      </Card>
+    );
   }
 
   const output: string[] = (() => {
@@ -42,10 +48,12 @@ const SchedulePanel = ({
   ));
 
   return (
-    <div>
-      <h1 className="text-lg text-semibold">Found a schedule</h1>
-      {rendered}
-    </div>
+    <Card>
+      <div>
+        <h1 className="text-lg text-semibold">Found a schedule</h1>
+        {rendered}
+      </div>
+    </Card>
   );
 };
 

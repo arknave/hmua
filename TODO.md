@@ -13,8 +13,5 @@ Features
 Tech-debt
 
 - Consolidate tailwind styling
-
-  - panels
   - buttons
-
 - Add ability to collapse panels (mobile only?)
