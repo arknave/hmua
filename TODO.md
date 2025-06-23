@@ -6,7 +6,6 @@ Features
 
 - Proper time input and validation
 - Persist to localstorage
-- Toolbar styling
 - Multiple potential schedules, with sorting/scoring
 - Edit the list of tasks?
 - Favicon

@@ -134,7 +134,7 @@ const Table = ({
         stopEditingWhenCellsLoseFocus={true}
       />
       {/*TODO: Disable if there are no selected rows*/}
-      <div className="mx-auto my-2 flex items-center text-center gap-4">
+      <div className="mx-auto my-2 flex justify-center items-center text-center gap-4">
         <button
           className="flex px-1 bg-sky-500 rounded-lg text-white"
           onClick={onDeleteRows}
