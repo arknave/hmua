@@ -93,7 +93,7 @@ const Table = ({
     const changedId = event.data.id;
     const field = event.colDef.headerName;
 
-    if (field == "deadline") {
+    if (field == "Deadline") {
       updateDeadline(changedId, newValue as string);
     } else if (field) {
       updateDuration(changedId, field, newValue as number);
